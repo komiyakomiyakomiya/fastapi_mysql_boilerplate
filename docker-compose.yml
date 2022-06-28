@@ -2,54 +2,57 @@ version: "3.7"
 
 services:
   api:
-    image: "fastapi_starter:1.0.0"
-    container_name: "fastapi_starter"
-    depends_on:
-      - db
     build:
       context: ./docker/api
       dockerfile: Dockerfile
+    image: "fastapi_mysql_api:1.0"
+    container_name: "fastapi_mysql_api"
     ports:
-      - "8888:8000"
+      - 8000:8000
     volumes:
-      - ./app:/usr/src/app/app:cached
+      - ./api:/usr/src/app/api:cached
       - ./db:/usr/src/app/db:cached
       - ./scripts:/usr/src/app/scripts:cached
-    working_dir: /usr/src/app/scripts
-    command: bash -c "./run.sh"
+    # working_dir: /usr/src/app/scripts
+    command: bash -c "cd /usr/src/app/scripts && ./run.sh"
     networks:
-      - fastapi_network
+      - fastapi_mysql_network
     environment:
-      APP_ENV: "development"
+      APP_ENV: "dev"
       TZ: "Asia/Tokyo"
     env_file:
-      - .env.development
+      - .env.dev
+    depends_on:
+      - db
+
   db:
-    image: "fastapi_starter_db:1.0.0"
-    container_name: "fastapi_starter_db"
+    image: "fastapi_mysql_db:1.0"
+    container_name: "fastapi_mysql_db"
     build:
       context: ./docker/db
       dockerfile: Dockerfile
     restart: always
     tty: true
-    expose:
-      - "3306"
+    ports:
+      - 3306:3306
     volumes:
+      - ./docker/db/data:/var/lib/mysql:cached
       - ./docker/db/conf.d:/etc/mysql/conf.d:cached
       - ./log/db:/var/log/mysql:cached
     networks:
-      - fastapi_network
+      - fastapi_mysql_network
     environment:
-      APP_ENV: "development"
+      APP_ENV: "dev"
       TZ: "Asia/Tokyo"
     env_file:
-      - .env.development
+      - .env.dev
+
 
 networks:
   default:
     external:
       name: bridge
-  fastapi_network:
-    name: fastapi_network
+  fastapi_mysql_network:
+    name: fastapi_mysql_network
     driver: bridge
     external: true

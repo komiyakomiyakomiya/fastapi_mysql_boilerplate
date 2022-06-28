@@ -1,33 +1,13 @@
-import os
 from logging.config import fileConfig
+
 from sqlalchemy import engine_from_config
 from sqlalchemy import pool
-import sqlalchemy_utils
+
 from alembic import context
-import database
-# modesls.* はコードないで使わないが、importしないとdatabase.Baseのmetadataにモデルが登録されず、
-# alembicでmigrationファイルを作成した際に認識されないので注意
-import models.user
-import models.book
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
 config = context.config
-
-# connect to database
-DB_USER = os.environ.get('MYSQL_USER')
-DB_PASSWORD = os.environ.get('MYSQL_PASSWORD')
-DB_ROOT_PASSWORD = os.environ.get('MYSQL_ROOT_PASSWORD')
-DB_HOST = os.environ.get('MYSQL_HOST')
-DB_NAME = os.environ.get('MYSQL_DATABASE')
-
-DATABASE = 'mysql://%s:%s@%s/%s?charset=utf8' % (
-    DB_USER,
-    DB_PASSWORD,
-    DB_HOST,
-    DB_NAME,
-)
-config.set_main_option('sqlalchemy.url', DATABASE)
 
 # Interpret the config file for Python logging.
 # This line sets up loggers basically.
@@ -37,28 +17,12 @@ fileConfig(config.config_file_name)
 # for 'autogenerate' support
 # from myapp import mymodel
 # target_metadata = mymodel.Base.metadata
-target_metadata = database.Base.metadata
-# target_metadata = None
+target_metadata = None
 
 # other values from the config, defined by the needs of env.py,
 # can be acquired:
 # my_important_option = config.get_main_option("my_important_option")
 # ... etc.
-
-
-# UUIDを使う場合に必要
-# def render_item(type_, obj, autogen_context):
-#     """Apply custom rendering for selected items."""
-
-#     if type_ == 'type' and isinstance(
-#             obj, sqlalchemy_utils.types.uuid.UUIDType):
-#         # add import for this type
-#         autogen_context.imports.add("import sqlalchemy_utils")
-#         autogen_context.imports.add("import uuid")
-#         return "sqlalchemy_utils.types.uuid.UUIDType(binary=False), default=uuid.uuid4"
-
-#     # default rendering for other objects
-#     return False
 
 
 def run_migrations_offline():
@@ -100,10 +64,7 @@ def run_migrations_online():
 
     with connectable.connect() as connection:
         context.configure(
-            connection=connection,
-            target_metadata=target_metadata,
-            # UUIDを使う場合に必要
-            # render_item=render_item
+            connection=connection, target_metadata=target_metadata
         )
 
         with context.begin_transaction():
@@ -114,4 +75,3 @@ if context.is_offline_mode():
     run_migrations_offline()
 else:
     run_migrations_online()
-

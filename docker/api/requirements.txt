@@ -1,8 +1,16 @@
-alembic==1.4.3
-fastapi==0.61.1
-# gunicorn==20.0.4
-mysqlclient==2.0.1
-pytest==6.1.2
-SQLAlchemy==1.3.20
-sqlalchemy_utils==0.36.8
-uvicorn==0.12.2
+alembic==1.8.0
+fastapi==0.78.0
+mysqlclient==2.1.1
+pytest==7.1.2
+requests==2.28.0
+sqlalchemy-utils==0.38.2
+sqlalchemy==1.4.39
+uvicorn==0.18.1
+
+# alembic==1.4.3
+# fastapi==0.61.1
+# mysqlclient==2.0.1
+# pytest==6.1.2
+# SQLAlchemy==1.3.20
+# sqlalchemy_utils==0.36.8
+# uvicorn==0.12.2

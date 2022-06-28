@@ -1,0 +1,22 @@
+{
+	"dockerComposeFile": [
+		"../docker-compose.yml" // docker-compose.ymlの相対パス
+	],
+	"name": "fastapi_mysql_api", // コンテナ名
+	"service": "api", // サービス名
+	"workspaceFolder": "/usr/src/app/", // VSCode上に展開するコンテナ内のディレクトリを指定
+	// "settings": { // コンテナ内に追加するVS Codeの設定
+		// "python.linting.pylintEnabled": false,
+		// "python.linting.flake8Enabled": true,
+		// "editor.formatOnSave": true,
+		// "python.linting.flake8Args": [
+		// 	"--max-line-length=150"
+		// ]
+	// },
+    "extensions": [ // コンテナ内でインストールするVS Codeの拡張機能ID
+        "almenon.arepl",
+        "njpwerner.autodocstring",
+        "ms-python.vscode-pylance",
+        "ms-python.python"
+    ]
+}
