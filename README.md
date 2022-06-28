@@ -1,9 +1,12 @@
 # FastAPI Starter
-
 ## Setup
+### .env.devファイルの作成
+.env.exampleをコピーし、適宜DB情報を編集
+```sh
+cp .env.example .env.dev  
+```
 
 ### ネットワーク作成
-
 ```
 # 作成 (初回のみ必要)
 $ docker network create fastapi_mysql_network
@@ -16,13 +19,11 @@ $ docker network rm fastapi_mysql_network
 ```
 
 ### コンテナ起動
-
 ```
 $ docker-compose up
 ```
 
 ### DB テーブル・データ作成
-
 `run.shに記述している場合は不要`
 
 ```
@@ -37,7 +38,6 @@ $ cd /usr/src/app/db && \
 ```
 
 # DB の初期化
-
 ```sh
 # コンテナ・Volumeを削除
 docker-compose down -v
@@ -53,7 +53,6 @@ docker-compose up
 
 
 # DB接続
-
 ```sh
 MYSQL_USER=MYSQL_USER
 MYSQL_PASSWORD=MYSQL_PASSWORD
